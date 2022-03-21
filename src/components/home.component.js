@@ -1,10 +1,7 @@
-import React, { Component, Suspense } from "react";
+import React, { Component } from "react";
 import {DogsStatistics, CatStatistics} from "./statistic.component" 
 
 import "./home.component.css"
-import { form } from "react-validation/build/form";
-
-//import UserService from "../services/user.service";
 
 export default class Home extends Component {
 
@@ -27,11 +24,6 @@ export default class Home extends Component {
       return(   <div className="description">
             <h1>About Our Cat Services</h1>
             <h2>Our door are open for cats to come and enjoy</h2>
-             {/* <Suspense fallback={<h1>Loading Statistics...</h1>}>
-              <p>Total Number of cages for cats are {data.catsStatistics.total_spaces}</p>
-              <p>Total Number of empty cages for cats are {data.catsStatistics.total_spaces_available}</p>
-              <p>Total Number of occupied cages for cats are {data.catsStatistics.ocupy_spaces}</p>
-            </Suspense> */}
             <CatStatistics />
           </div>)
   }
@@ -41,11 +33,6 @@ export default class Home extends Component {
       <div className="description">
             <h1>About Our Dog services</h1>
             <h2>Our door are open for dogs to come and enjoy</h2>
-            
-              {/* <p>Total Number of cages for dog are {data.dogsStatistics.total_spaces}</p>
-              <p>Total Number of empty cages for dog are {data.dogsStatistics.total_spaces_available}</p>
-              <p>Total Number of occupied cages for dog are {data.dogsStatistics.ocupy_spaces}</p>
-               */}
                <DogsStatistics />
             </div>
     )
@@ -64,14 +51,14 @@ export default class Home extends Component {
           <div className="meta">
             <div className="photo divCatStyles" ></div>
             <ul className="details">
-              <li className="author"><a >John Doe</a></li>
+              <li className="author">The services only for dog</li>
               <li className="date">Aug. 24, 2015</li>
               <li className="tags">
                 <ul>
-                  <li><a>Learn</a></li>
-                  <li><a >Code</a></li>
-                  <li><a >HTML</a></li>
-                  <li><a >CSS</a></li>
+                  <li></li>
+                  <li></li>
+                  <li></li>
+                  <li></li>
                 </ul>
               </li>
             </ul>
@@ -82,13 +69,13 @@ export default class Home extends Component {
           <div className="meta">
             <div className="photo divDogStyles" ></div>
             <ul className="details">
-              <li className="author"><a href="#">Jane Doe</a></li>
+              <li className="author">Services only for Dogs</li>
               <li className="date">July. 15, 2015</li>
               <li className="tags">
                 <ul>
-                  <li><a >Learn</a></li>
-                  <li><a >Code</a></li>
-                  <li><a >JavaScript</a></li>
+                  <li></li>
+                  <li></li>
+                  <li></li>
                 </ul>
               </li>
             </ul>
