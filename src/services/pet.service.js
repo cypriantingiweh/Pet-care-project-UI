@@ -40,10 +40,10 @@ class PetService{
             return response.data;
          });
     }
-
-       cageOutPets(cage_id,total_days_spent,cage_in_pet_id) {
-        return axios.post(API_URL + "out", {
-            cage_id,total_days_spent,cage_in_pet_id
+///api/pet/out/:id
+       cageOutPets(id) {
+        return axios.post(API_URL + "out/" + id, {
+            id
         }, { headers: authHeader() })
         .then(response => {
             return response.data;

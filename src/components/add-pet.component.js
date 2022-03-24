@@ -157,9 +157,9 @@ export default class AddPets extends Component {
               error.response.data.message) ||
             error.message ||
             error.toString()});
-            console.log(this.state.message)
-            if(this.state.message ==="Pet Name already exist!"){
-              this.props.history.push(`/pet/signin?Pet_id=${this.state.insertedId}&pet_type=${this.state.petType}&wieght=${this.state.wieght}`); 
+            console.log(error.message)
+            if(error.response.message ==="Pet Name already exist! Has this pet ever been here?"){
+              this.props.history.push(`/pet/signin?Pet_id=${this.state.insertedId}&pet_type=${this.state.petType}&wieght=${this.state.wieght}&message=${this.state.message}`); 
             }
           });
     event.preventDefault();
@@ -185,7 +185,7 @@ export default class AddPets extends Component {
                 </div>
               </div>
             )}
-        <h1>Please provide us with your pet information</h1>
+        <h1 className= "title">Please provide us with your pet information</h1>
 
         <Form onSubmit={this.handleSubmit}ref={c => {this.form = c;}}>
               <div>
@@ -204,6 +204,7 @@ export default class AddPets extends Component {
                 <div className="form-group">
                   <label htmlFor="PetType" >Please Select Pet Type  
                     <select className="form-control" onChange={this.updatepetType}>
+                       <option  value="">Select pet type</option>
                       {petType.map((item) => {
                         return (<option key={item.id} value={item.id}>{item.type_name}</option>);
                         })}

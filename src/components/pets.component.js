@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import PetService from "../services/pet.service";
 import PetTypeService from "../services/pet-type.service"
 import { Link } from "react-router-dom";
-//import EventBus from "../common/EventBus";
 
 export default class Pets extends Component {
   constructor(props) {
@@ -41,9 +40,9 @@ export default class Pets extends Component {
   renderAccordion(){
 
     return this.state.value.map((pets, index) => {
-        const {id,name,wieght,date_of_birth,note,cage,enter_date,number_of_days,leaving_date,pet_type} = pets;  
+        const {id,pet_id,name,wieght,date_of_birth,note,cage,enter_date,number_of_days,leaving_date,pet_type} = pets;  
         return (
-           <div className="row">
+           <div className="row" key={id}>
                 <div className ="col-lg-10 col-sm-10 mt-2">
                   <div className="option">
                     <input type="checkbox" id= {id} className="toggle" />
@@ -63,7 +62,7 @@ export default class Pets extends Component {
                    </div>
                   </div>
                  <div className ="col-lg-2 col-sm-2 mt-5"> 
-                  <Link to={`/pets/bills/${id}`} className="nav-link btn-success form-control" data-toggle="pill" role="tab" aria-controls="tab5" aria-selected="false">
+                  <Link to={`/pets/bills/${pet_id}/${id}`} className="nav-link btn-success form-control" data-toggle="pill" role="tab" aria-controls="tab5" aria-selected="false">
                      Get Bills
                   </Link>
                 </div>
@@ -104,11 +103,11 @@ export default class Pets extends Component {
         <div className="row" style={{marginBottom:'-30px'}}>
           <div className="col-lg-10 col-sm-10 mt-3">
             { this.state.value ?
-               <h1 id='title'>List of {this.state.value[0].pet_type} </h1> :  <h1 id='title'>Please select the Pets you want to view </h1>
+               <h1 id='title'>List of {this.state.value.legth ?<span>{this.state.value[0].pet_type}</span>:<span>pet</span> } </h1> :  <h1 id='title'>Please select the Pets you want to view </h1>
             }
           </div>
           <div className="col-lg-2 col-sm-2 mt-5">
-              <Link to={"/pet/add"} className="nav-link btn-success form-control" data-toggle="pill" role="tab" aria-controls="tab5" aria-selected="false">
+              <Link to={"/pet-owner/add"} className="nav-link btn-success form-control" data-toggle="pill" role="tab" aria-controls="tab5" aria-selected="false">
                 <i className="mdi mdi-coin"></i> Add Pet
               </Link>
           </div>
@@ -120,6 +119,7 @@ export default class Pets extends Component {
               <label>
               Please Select Pet Type  
             <select className="form-control" onChange={this.updatepetType}>
+              <option  value="">Select specie</option>
               {petType.map((item) => {
                 return (<option key={item.id} value={item.id}>{item.type_name}</option>);
               })}
@@ -131,9 +131,10 @@ export default class Pets extends Component {
       </form>
         {this.state.value ? (
             <div style={{marginTop:'-50px'}}>
+               {this.state.value.length ? (
               <div class="accordion">
                 {this.renderAccordion()}
-              </div>
+              </div>): <span>No Pet Found</span>}
             </div>) : null
         }
     </div>);

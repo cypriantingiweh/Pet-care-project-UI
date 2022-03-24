@@ -49,7 +49,7 @@ export default class SignInPet extends Component {
       wieght: new URLSearchParams(search).get('wieght'),
       cage:[],
       placeValue:[],
-      message:""
+      message:new URLSearchParams(search).get('message'),
 
     };
 
@@ -122,6 +122,20 @@ export default class SignInPet extends Component {
     const petType =  this.state.placeValue;
     return ( 
       <div className ="container mt-4">
+          {this.state.message && (
+              <div className="form-group">
+                <div
+                  className={
+                    this.state.successful==="true"
+                      ? "alert alert-success"
+                      : "alert alert-danger"
+                  }
+                  role="alert"
+                >
+                  {this.state.message}
+                </div>
+              </div>
+            )}
         <h1>Please provide us with your pet information</h1>
 
         <Form onSubmit={this.handleSubmit}ref={c => {this.form = c;}}>

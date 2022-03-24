@@ -18,23 +18,26 @@ export default class ProvideService extends Component {
       wieght:new URLSearchParams(search).get('wieght'),
       requst:[],
       services_id:"",
-      extra_service:""
+      extra_service:"",
+      extraWashing:"",
+      placeValue:[]
     };
 
-    this.getAllPetServicesService();
+    
     this.handleChangeShaving = this.handleChangeShaving.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleChangeWashing = this.handleChangeWashing.bind(this);
     this.onChangeNumberOftimesperdays = this.onChangeNumberOftimesperdays.bind(this);
+    this.getAllPetServicesService();
 
   }
 
-  getAllPetServicesService() {
-    PetServicesService.getAllPetServices(this.state.pet_type).then(
+  async getAllPetServicesService() {
+    await PetServicesService.getAllPetServices(this.state.pet_type).then(
       response => {
-        if(response.message ==="Services successfully added"){
-            this.props.history.push("/pets");      
-       }
+          this.setState({
+        placeValue:response.data.data
+      })
       },
       error => {
         this.setState({
@@ -54,9 +57,10 @@ export default class ProvideService extends Component {
       this.state.requst
       ).then(
       response => {
-         this.setState({
-        value:response.data.data
-      })
+
+       if(response.message ==="Services successfully added"){
+            this.props.history.push("/pets");      
+       }
       },error => {
         this.setState({
           pettypes:(error.response &&
@@ -70,20 +74,25 @@ export default class ProvideService extends Component {
   
 
     handleChangeWashing(event) {
-        const values = this.state.placeValue;
-        this.setState({washing: event.target.value});
-        if(event.target.value ==='YES'){
-            this.state.requst.push({
-                    services_id: values.find(obj => {return obj.name==="Extra Washing"}).id,
-                    extra_service: 1,
-                    number_oftimes_per_day:this.state.number_oftimes_per_day,
-                    pet_cage_id:this.state.pet_cage_id
-                } ) 
-            }
+        this.setState({extraWashing: event.target.value});
+              this.servicescAddition();
+    
     }
     
     onChangeNumberOftimesperdays(e){
+      const values = this.state.placeValue;
+         console.log(this.state.extraWashing)
         this.setState({number_oftimes_per_day: e.target.value});
+        if(this.state.extraWashing ==='YES'){
+          console.log(values)
+          console.log(values.find(obj => {return obj.name==="Extra Washing"}))
+          this.state.requst.push({
+            services_id: values.find(obj => {return obj.name==="Extra Washing"}).id,
+              extra_service: 1,
+              number_oftimes_per_day:this.state.number_oftimes_per_day,
+              pet_cage_id:this.state.pet_cage_id
+            } ) 
+            }
     }
 
     handleChangeShaving(event) {
@@ -101,8 +110,7 @@ export default class ProvideService extends Component {
 
     servicescAddition(){
         const values = this.state.placeValue;
-        console.log(values)
-        if(this.state.pet_type === 1){
+        if(this.state.placeValue[0].pet_type_id === 1){
             if(this.state.wieght > 40){
                 this.state.requst.push({
                     services_id: values.find(obj => {return obj.name==="Dogs above 40kg";}).id,
@@ -124,9 +132,9 @@ export default class ProvideService extends Component {
                     number_oftimes_per_day:0,
                     pet_cage_id:this.state.pet_cage_id
                 } )
-            }
-              
+            }   
         }else{
+          console.log(this.state.pet_type)
             this.state.requst.push({
                     services_id: values.find(obj => {return obj.name==="Cat Services"}).id,
                     extra_service: 0,
@@ -139,16 +147,18 @@ export default class ProvideService extends Component {
   
     
   render() {
-
+    console.log(this.state.placeValue)
     return ( 
       <div className ="container mt-4">
         <h1>Thanks alot! Let's continue </h1>
-        <Form onSubmit={this.handleSubmit}ref={c => {this.form = c;}}>
+        {this.state.placeValue ?(
+            <Form onSubmit={this.handleSubmit}ref={c => {this.form = c;}}>
               <div>
               {this.state.pet_type ===1 ?
                 (<div className="form-group">
                   <label htmlFor="PetType" > Do you want your Pet sharved?
                      <select className="form-control" value={this.state.value} onChange={this.handleChangeShaving}>
+                        <option  value="">Select option</option>
                         <option value="YES">Yes</option>
                         <option value="No">No</option>
                     </select>
@@ -159,6 +169,7 @@ export default class ProvideService extends Component {
                 <div className="form-group">
                   <label htmlFor="PetType" > Do want Extra washing of your pet?
                      <select className="form-control" value={this.state.value} onChange={this.handleChangeWashing}>
+                        <option  value="">Select option</option>
                         <option value="YES">Yes</option>
                         <option value="No">No</option>
                     </select>
@@ -180,6 +191,8 @@ export default class ProvideService extends Component {
                 </div>
               </div>
           </Form>
+        ): <span>Loading Form data...</span> }
+      
       </div>); 
   }
 }

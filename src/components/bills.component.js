@@ -1,6 +1,6 @@
 import React, { Component } from "react";
-import PetServicesService from "../services/pet-services.service"
-
+import PetServicesService from "../services/pet-services.service";
+import PetService from "../services/pet.service"
 
 export default class PetBills extends Component {
     
@@ -9,18 +9,25 @@ export default class PetBills extends Component {
 
         this.state = {
         value:undefined,
-        id:this.props.match.params.id
+        id:this.props.match.params.id,
+        pet_id:this.props.match.params.pet_id,
+        catStatistics:undefined,
+        dogsStatistics:undefined,
+        message:''
         };
         this.getBillsforPet();
-       
      }
 
-    getBillsforPet() {
-        PetServicesService.getAllPetServicesBills(this.state.id).then(
+    async getBillsforPet() {
+        console.log(this.state.pet_id)
+      await  PetServicesService.getAllPetServicesBills(this.state.pet_id).then(
             response => {
-                this.setState({
-                value:response.data.data
-            })
+                if(!response.data.data.length){
+                   this.setState({
+                    value:response.data.data
+                    })
+                }
+            console.log(response.data.data)
             },
             error => {
                 this.setState({
@@ -33,23 +40,40 @@ export default class PetBills extends Component {
             }
         );
     }
+ handleSiginOut(id){
+        PetService.cageOutPets(id).then(response =>{
+            if(response.message ==="Pet Sign Out"){
+                this.props.history.push("/pets") 
+            }
 
-     renderTableData() {
-      return this.state.value.services.map((services, index) => {
-         const { service_name, number_oftimes_per_day, cost, total } = services 
-         return (
-            <tr key={index}>
+        },error => {
+            this.setState({
+                message:(error.response &&
+                    error.response.data &&
+                    error.response.data.message) ||
+                    error.message ||
+                    error.toString()
+                });
+            })
+    }
 
-               <td>{index}</td>
-               <td>{service_name}</td>
-               {number_oftimes_per_day !==0 ? <td>{number_oftimes_per_day}</td>: <td> regular </td>}
-               
-               <td>{cost}</td>
-               <td> {this.state.value.number_of_days} </td>
-               <td>{total}</td>
-            </tr>
-         )
-      })
+    renderTableData() {
+            return this.state.value.services.map((services, index) => {
+            const { service_name, number_oftimes_per_day, cost, total } = services 
+            return (
+                <tr key={index}>
+
+                <td>{index}</td>
+                <td>{service_name}</td>
+                {number_oftimes_per_day !==0 ? <td>{number_oftimes_per_day}</td>: <td> regular </td>}
+                
+                <td>{cost}</td>
+                <td> {this.state.value.number_of_days} </td>
+                <td>{total}</td>
+                </tr>
+            )
+        })
+      
    }
 
    renderHeader(){
@@ -63,14 +87,14 @@ export default class PetBills extends Component {
           </tr>)
    }
 
-     render() {
+    render() {
          return(
             <div className = "container">
                  <h1  >Pet Bills</h1>
                 {this.state.value ?
-                (
-                <div >
-                    <p> Pet Name: {this.state.value.Pet_name}</p>
+                (<div >
+                    {this.state.value ?
+                    ( <div> <p> Pet Name: {this.state.value.Pet_name}</p>
                     <p> Pet Type: {this.state.value.type_name}</p>
                     <p> Pet Birth date: {this.state.value.date_of_birth}</p>
                     <p> Pet weight: {this.state.value.wieght}</p>
@@ -89,10 +113,20 @@ export default class PetBills extends Component {
                  </table>
                  <br />
                  <p style ={{fontStyle:'italic'}} >Total services charged for Keeping your {this.state.value.type_name} = {this.state.value.total_service_charge} frs CFA</p>
-                 <br />
+                 <div className ="row">
+                    <div className ="col-lg-8">
+
+                    </div>
+                    <div className ="col-lg-4">
+                        <button className ="btn-danger" onClick={() =>this.handleSiginOut(this.state.id)}>Sign Out</button>
+                    </div>
+                 </div>
+                 <br /> </div>): <div>No Bills found Yet</div>
+                    }
+                   
                 </div>): <span>Loading Bills...</span>
                  }   
              </div>
-             )
+        )
      }
 }

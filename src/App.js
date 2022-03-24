@@ -131,10 +131,6 @@ class App extends Component {
                 <Link to={"/pets"} className="nav-link" data-toggle="pill" role="tab" aria-controls="tab5" aria-selected="false">
                     <i className="mdi mdi-coin"></i> Pets
                 </Link>
-                {/* to be remove when flow adjusted */}
-                <Link to={"/pet-owner/add"} className="nav-link" data-toggle="pill" role="tab" aria-controls="tab5" aria-selected="false">
-                    <i className="mdi mdi-coin"></i> Add pet Owner
-                </Link>
               </div>
             </div>):null}
             { !currentUser ? 
@@ -157,7 +153,7 @@ class App extends Component {
                                   <Route exact path="/pets" component={Pets} />
                                   <Route path="/cage" component={Cage} />
                                   <Route path="/pet/add" component={AddPets} />
-                                  <Route path ="/pets/bills/:id" component ={PetBills} />
+                                  <Route path ="/pets/bills/:pet_id/:id" component ={PetBills} />
                                   <Route path ="/pet-owner/add" component = {AddPetOwner} />
                                   <Route path ="/pet/signin" component = {SignInPet} />
                                   <Route path ="/pet/provide" component = {ProvideService} />

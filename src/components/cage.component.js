@@ -21,7 +21,7 @@ export default class Cage extends Component {
   }
 
   componentDidMount() {
-    PetTypeService.getAllPetType().then(
+     PetTypeService.getAllPetType().then(
       response => {
          this.setState({
         placeValue:response.data.data
@@ -44,7 +44,7 @@ export default class Cage extends Component {
     return this.state.value.map((cages, index) => {
         const {id,name,address,height,width,length,capacity,available} = cages;  
         return (
-           <div className="row">
+           <div className="row" key={id}>
                 <div className ="col-lg-12 col-sm-12">
                   <div className="option">
                     <input type="checkbox" id= {id} className="toggle" />
@@ -106,7 +106,7 @@ export default class Cage extends Component {
             }
           </div>
           <div className="col-lg-2 col-sm-2 mt-5">
-              <Link to={"/pet/add"} className="nav-link btn-success form-control" data-toggle="pill" role="tab" aria-controls="tab5" aria-selected="false">
+              <Link to={"/pet-owner/add"} className="nav-link btn-success form-control" data-toggle="pill" role="tab" aria-controls="tab5" aria-selected="false">
                 <i className="mdi mdi-coin"></i> Add Pet
               </Link>
           </div>
@@ -115,7 +115,7 @@ export default class Cage extends Component {
         <form onSubmit={this.handleSubmit}>
           <div className="row">
             <div className ="col-lg-10 col-sm-10 mt-3">
-              <label>
+              <label htmlFor="PetType">
               Please Select Pet Type  
             <select className="form-control" onChange={this.updatepetType}>
               {petType.map((item) => {
@@ -124,7 +124,8 @@ export default class Cage extends Component {
             </select>
             </label>
             </div>
-            <div className ="col-lg-2 col-sm-2"> <input className="form-control  mt-5" type="submit" value="Submit" /></div>
+            <div className ="col-lg-2 col-sm-2"> 
+            <input className="form-control  mt-5" type="submit" value="Submit" /></div>
           </div>
       </form>
         {this.state.value ? (
