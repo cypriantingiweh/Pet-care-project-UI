@@ -1,7 +1,12 @@
 import axios from 'axios';
 import authHeader from './auth-header';
 
-const API_URL = "http://localhost:4000/api/cage/";
+//local dev
+const API_URL = "http://localhost:5000/api/cage/";
+const API_Secd = "http://localhost:5000/api/statistics/"
+
+//production
+//const API_URL = "https://project-petcare-api.herokuapp.com/api"
 
 class CageService{
 
@@ -41,7 +46,7 @@ class CageService{
   }
 
    getStatistics(pet_type_id) {
-      return axios.get("http://localhost:4000/api/statistics/"+ pet_type_id, { headers: authHeader() });
+      return axios.get(API_Secd + pet_type_id, { headers: authHeader() });
   }
 }
 

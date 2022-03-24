@@ -158,7 +158,7 @@ export default class AddPets extends Component {
             error.message ||
             error.toString()});
             console.log(error.message)
-            if(error.response.message ==="Pet Name already exist! Has this pet ever been here?"){
+            if(error.message ==="Pet Name already exist! Has this pet ever been here?"){
               this.props.history.push(`/pet/signin?Pet_id=${this.state.insertedId}&pet_type=${this.state.petType}&wieght=${this.state.wieght}&message=${this.state.message}`); 
             }
           });
