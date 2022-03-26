@@ -19,10 +19,11 @@
     "redux": "^4.0.5"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
+     "start-client": "react-scripts start",
+    "build": "react-scripts build && (cd pet-project && npm install)",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "start": "cd pet-project && npm start"
   },
   "eslintConfig": {
     "extends": "react-app"

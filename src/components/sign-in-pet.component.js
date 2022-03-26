@@ -101,7 +101,7 @@ export default class SignInPet extends Component {
        if(response.message ==="Pet already cage in"){
         this.props.history.push(`/pet/provide?pet_cage_id=${response.data.id}&wieght=${this.state.wieght}&pet_type=${this.state.pet_type}`);      
        }else{
-          this.props.history.push(`/pet/provide?pet_cage_id=${response.data.insertId}&wieght=${this.state.wieght}&pet_type=${this.state.pet_type}`);      
+          this.props.history.push(`/pet/provide?pet_cage_id=${response.data.id}&wieght=${this.state.wieght}&pet_type=${this.state.pet_type}`);      
        }
     },error => {
        console.log(error)
@@ -155,6 +155,7 @@ export default class SignInPet extends Component {
                 <div className="form-group">
                   <label htmlFor="PetType" > The cage you love for your Pet 
                     <select className="form-control" onChange={this.updatepetType}>
+                      <option value="">Select Cage</option>)
                       {petType.map((item) => {
                         return (<option key={item.id} value={item.id}>{item.name}, {item.address} of capacity {item.capacity}cm3 </option>);
                         })}

@@ -1,16 +1,16 @@
 import axios from 'axios';
 import authHeader from './auth-header';
 
-const API_URL = "http://localhost:5000/api/normal_services";
-const API_Secd  = "http://localhost:5000/api/provide/"
+// const API_URL = "http://localhost:5000/api/normal_services";
+// const API_Secd  = "http://localhost:5000/api/provide/"
 
 //production
-//const API_URL = "https://project-petcare-api.herokuapp.com/api"
+const API_URL = "https://project-petcare-api.herokuapp.com/api/"
 
 class PetServicesService{
 
     addPetServices(name,description,cost,pet_type_id) {
-        return axios.post(API_URL + "/register", {
+        return axios.post(API_URL + "normal_services/register", {
             name,description,cost,pet_type_id
         }, { headers: authHeader() })
         .then(response => {
@@ -19,7 +19,7 @@ class PetServicesService{
     }
 
     updatePetServices(name,description,cost,pet_type_id,id) {
-    return axios.put(API_URL + "/"+ id, {
+    return axios.put(API_URL + "normal_services/"+ id, {
        name,description,cost,pet_type_id,id
       }, { headers: authHeader() })
       .then(response => {
@@ -28,7 +28,7 @@ class PetServicesService{
   }
 
     deletePetServices(id) {
-    return axios.delete(API_URL + "/"+ id, {
+    return axios.delete(API_URL + "normal_services/"+ id, {
         id
       }, { headers: authHeader() })
       .then(response => {
@@ -37,12 +37,12 @@ class PetServicesService{
   }
 
    getAllPetServices(pet_type_id) {
-    return axios.get(API_URL + "/" + pet_type_id, { headers: authHeader() });
+    return axios.get(API_URL + "normal_services/" + pet_type_id, { headers: authHeader() });
   }
 
 
     addProvidePetServices(services_id,pet_cage_id,extra_service,number_oftimes_per_day) {
-        return axios.post(API_Secd + "service", 
+        return axios.post(API_URL + "provide/service", 
           {services_id,pet_cage_id,extra_service,number_oftimes_per_day}
         ,{ headers: authHeader() })
         .then(response => {
@@ -51,7 +51,7 @@ class PetServicesService{
     }
 
      getAllPetServicesBills(id) {
-    return axios.get(API_Secd + "service_cost/"+ id, { headers: authHeader() });
+    return axios.get(API_URL + "provide/service_cost/"+ id, { headers: authHeader() });
   } 
     
 }

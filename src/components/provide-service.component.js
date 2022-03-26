@@ -75,8 +75,6 @@ export default class ProvideService extends Component {
 
     handleChangeWashing(event) {
         this.setState({extraWashing: event.target.value});
-              this.servicescAddition();
-    
     }
     
     onChangeNumberOftimesperdays(e){
@@ -88,9 +86,9 @@ export default class ProvideService extends Component {
           console.log(values.find(obj => {return obj.name==="Extra Washing"}))
           this.state.requst.push({
             services_id: values.find(obj => {return obj.name==="Extra Washing"}).id,
-              extra_service: 1,
-              number_oftimes_per_day:this.state.number_oftimes_per_day,
-              pet_cage_id:this.state.pet_cage_id
+              extra_service: true,
+              number_oftimes_per_day:+e.target.value,
+              pet_cage_id:+this.state.pet_cage_id
             } ) 
             }
     }
@@ -101,9 +99,9 @@ export default class ProvideService extends Component {
         if(event.target.value ==='YES'){
             this.state.requst.push({
                 services_id: values.find(obj => {return obj.name==="Sharving"}).id,
-                extra_service: 0,
-                number_oftimes_per_day:1,
-                pet_cage_id:this.state.pet_cage_id
+                extra_service: false,
+                number_oftimes_per_day:0,
+                pet_cage_id:+this.state.pet_cage_id
             } ) 
         }
     }
@@ -114,30 +112,29 @@ export default class ProvideService extends Component {
             if(this.state.wieght > 40){
                 this.state.requst.push({
                     services_id: values.find(obj => {return obj.name==="Dogs above 40kg";}).id,
-                    extra_service: 0,
+                    extra_service: false,
                     number_oftimes_per_day:0,
-                    pet_cage_id:this.state.pet_cage_id
+                    pet_cage_id:+this.state.pet_cage_id
                 } )
             } else if(this.state.wieght < 20){
                 this.state.requst.push({
                     services_id: values.find(obj => {return obj.name==="Dogs between 40kg and 20kg"}).id,
-                    extra_service: 0,
+                    extra_service: false,
                     number_oftimes_per_day:0,
-                    pet_cage_id:this.state.pet_cage_id
+                    pet_cage_id:+this.state.pet_cage_id
                 } )
             }else{
                 this.state.requst.push({
                     services_id: values.find(obj => {return obj.name==="Dogs below 20kg"}).id,
-                    extra_service: 0,
+                    extra_service: false,
                     number_oftimes_per_day:0,
-                    pet_cage_id:this.state.pet_cage_id
+                    pet_cage_id:+this.state.pet_cage_id
                 } )
             }   
         }else{
-          console.log(this.state.pet_type)
             this.state.requst.push({
                     services_id: values.find(obj => {return obj.name==="Cat Services"}).id,
-                    extra_service: 0,
+                    extra_service: false,
                     number_oftimes_per_day:0,
                     pet_cage_id:this.state.pet_cage_id
                 } )  
@@ -154,7 +151,7 @@ export default class ProvideService extends Component {
         {this.state.placeValue ?(
             <Form onSubmit={this.handleSubmit}ref={c => {this.form = c;}}>
               <div>
-              {this.state.pet_type ===1 ?
+              {this.state.pet_type === "1" ?
                 (<div className="form-group">
                   <label htmlFor="PetType" > Do you want your Pet sharved?
                      <select className="form-control" value={this.state.value} onChange={this.handleChangeShaving}>
