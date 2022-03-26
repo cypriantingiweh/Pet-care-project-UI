@@ -145,10 +145,10 @@ export default class AddPets extends Component {
       response => {
          this.setState({
         message:response.message,   
-        insertedId:response.data.insertId
+        insertedId:response.data.id
       })
       if(response.message ==="Pet successfully added"){
-        this.props.history.push(`/pet/signin?Pet_id=${response.data.insertId}&pet_type=${this.state.petType}&wieght=${this.state.wieght}`);
+        this.props.history.push(`/pet/signin?Pet_id=${response.data.id}&pet_type=${this.state.petType}&wieght=${this.state.wieght}`);
       }},error => {
         this.setState({
           insertedId:error.response.data.data.id,
