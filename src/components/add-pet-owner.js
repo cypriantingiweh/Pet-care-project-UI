@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import Form from "react-validation/build/form";
 import Input from "react-validation/build/input";
+import CheckButton from "react-validation/build/button";
 import { isEmail } from "validator";
 
 import AuthService from "../services/auth.service";
@@ -183,6 +184,22 @@ export default class AddPetOwner extends Component {
                 </div>
               </div>
             )}
+
+            {this.state.message && (
+              <div className="form-group">
+                <div
+                  className={
+                    this.state.successful
+                      ? "alert alert-success"
+                      : "alert alert-danger"
+                  }
+                  role="alert"
+                >
+                  {this.state.message}
+                </div>
+              </div>
+            )}
+            <CheckButton style={{ display: "none" }} ref={c => {this.checkBtn = c;}} />
           </Form>
         </div>
       </div>
