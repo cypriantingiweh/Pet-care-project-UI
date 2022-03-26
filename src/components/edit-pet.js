@@ -1,4 +1,5 @@
-import React, { Component } from "react";
+import React, {Component} from "react";
+
 import Form from "react-validation/build/form";
 import Input from "react-validation/build/input";
 import { isEmail } from "validator";
@@ -45,8 +46,9 @@ const phone = value => {
   }
 };
 
-export default class AddPetOwner extends Component {
-  constructor(props) {
+export default class EditPet extends Component {
+
+     constructor(props) {
     super(props);
     this.handleRegister = this.handleRegister.bind(this);
     this.onChangeFullnames = this.onChangeFullnames.bind(this);

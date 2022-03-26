@@ -3,7 +3,7 @@ import React, { Component } from "react";
 import UserService from "../services/user.service";
 import EventBus from "../common/EventBus";
 import './board-user.component.css'
-
+import { Link } from "react-router-dom";
 
 export default class BoardUser extends Component {
   constructor(props) {
@@ -18,7 +18,7 @@ export default class BoardUser extends Component {
     UserService.getUserBoard().then(
       response => {
          this.setState({
-        content:response.data
+        content:response.data.filter( (ele, ind) => ind === response.data.findIndex( elem => elem.fullnames === ele.fullnames && elem.email === ele.email))
       })
       },
       error => {
@@ -62,13 +62,22 @@ export default class BoardUser extends Component {
 
       render() {
       return (
-         <div className ="">
-            <h1 id='title'>List of Pet Owners</h1>
-            <div class="container">
-              <div class="accordion">
+          <div className ="container">
+            <div className="row" style={{marginBottom:'-30px'}}>
+              <div className="col-lg-10 col-sm-10 mt-3">
+                  <h1 id='title'> List of pet Owners </h1>
+              </div>
+              <div className="col-lg-2 col-sm-2 mt-3">
+                  <Link to={"/pet-owner/add"} className="nav-link btn-success form-control" data-toggle="pill" role="tab" aria-controls="tab5" aria-selected="false">
+                    <i className="mdi mdi-coin"></i>New pet-owner
+                  </Link>
+              </div>
+            </div>
+            
+            <div class="accordion">
                 {this.renderAccordion()}
             </div>
-          </div>
+          
         </div>
       )
    }

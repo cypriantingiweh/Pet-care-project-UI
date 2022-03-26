@@ -1,29 +1,48 @@
-import React, { Component } from "react";
-import PetService from "../services/pet.service";
+import React, {Component} from "react";
+
 import PetTypeService from "../services/pet-type.service"
+import PetServicesService from "../services/pet-services.service"
 import { Link } from "react-router-dom";
 import moment from 'moment';
 
-export default class Pets extends Component {
-  constructor(props) {
+export default class Services extends Component {
+
+    constructor(props) {
     super(props);
 
 
     this.state = {
-      value:undefined,
+      value:[],
       petType:[],
-      placeValue:[]
+      placeValue:[],
     };
     this.componentDidMount();
     this.updatepetType = this.updatepetType.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
-  componentDidMount() {
-    PetTypeService.getAllPetType().then(
+ async componentDidMount() {
+   await  PetTypeService.getAllPetType().then(
       response => {
          this.setState({
         placeValue:response.data.data
+      })
+      },
+      error => {
+        this.setState({
+          pettypes:(error.response &&
+              error.response.data &&
+              error.response.data.message) ||
+            error.message ||
+            error.toString()
+        });
+      }
+    );
+
+  await  PetServicesService.getAllServices().then(
+      response => {
+         this.setState({
+        value:response.data.data
       })
       },
       error => {
@@ -41,32 +60,29 @@ export default class Pets extends Component {
   renderAccordion(){
 
     return this.state.value.map((pets, index) => {
-        const {id,pet_id,name,wieght,date_of_birth,note,cage,enter_date,number_of_days,leaving_date,pet_type} = pets;  
+        const {id,name,description,cost,created_at} = pets;  
         return (
            <div className="row" key={id}>
-                <div className ="col-lg-10 col-sm-10 mt-2">
+                <div className ="col-lg-12 col-sm-12">
                   <div className="option">
                     <input type="checkbox" id= {id} className="toggle" />
-                     <label className="title" for= {id}>{index +1}. {name}
+                     <label className="title" for= {id}>
+                        <table>
+                          <tbody>
+                            <tr>
+                              <td style={{border:'none'}} >{index+1}.</td>
+                              <td style={{border:'none'}}  > {name} </td>
+                              <td style={{border:'none'}}  >{cost}frs CFA</td>
+                              <td  style={{border:'none'}} > {description} </td>
+                              <td style={{border:'none'}} >{  moment.utc(created_at).format("MMM Do, YYYY")}</td>
+                            </tr>
+                          </tbody>     
+                        </table>
                      </label>
                       <div className="content">
-                        <p style ={{marginLeft:'20px'}}> Pet Name:{name}</p>
-                        <p style={{marginLeft:'20px'}}> Pet Type: {pet_type} </p>
-                        <p style ={{marginLeft:'20px'}}> Pet Cage: {cage} </p>
-                        <p style ={{marginLeft:'20px'}}> Pet Birth date:{ moment.utc(date_of_birth).format("MMM Do, YYYY") } </p>
-                        <p style ={{marginLeft:'20px'}}> Pet weight: {wieght}Kg</p>
-                        <p style ={{marginLeft:'20px'}}> Number of days: {number_of_days} </p>
-                        <p style ={{marginLeft:'20px'}}> Enter Date : {  moment.utc(enter_date).format("MMM Do, YYYY") }</p>
-                        <p style ={{marginLeft:'20px'}}> leaving_date: {  moment.utc(leaving_date).format("MMM Do, YYYY") } </p>
-                        <p style ={{marginLeft:'20px'}}> Note: {note} </p> 
                       </div>
                    </div>
                   </div>
-                 <div className ="col-lg-2 col-sm-2 mt-5"> 
-                  <Link to={`/pets/bills/${pet_id}/${id}`} className="nav-link btn-success form-control" data-toggle="pill" role="tab" aria-controls="tab5" aria-selected="false">
-                     Get Bills
-                  </Link>
-                </div>
               </div>
           )
         
@@ -74,7 +90,7 @@ export default class Pets extends Component {
    }
 
   handleSubmit(event) {
-    PetService.getAllSignInPetOfType(this.state.petType).then(
+    PetServicesService.getAllPetServices(this.state.petType).then(
       response => {
          this.setState({
         value:response.data.data
@@ -103,13 +119,11 @@ export default class Pets extends Component {
       <div className= "container">
         <div className="row" style={{marginBottom:'-30px'}}>
           <div className="col-lg-10 col-sm-10 mt-3">
-            { this.state.value ?
-               <h1 id='title'>List of {this.state.value.legth ?<span>{this.state.value[0].pet_type}</span>:<span>pet</span> } </h1> :  <h1 id='title'>Please select the Pets you want to view </h1>
-            }
+               <h1 id='title'> List of Services </h1>
           </div>
           <div className="col-lg-2 col-sm-2 mt-5">
-              <Link to={"/pet-owner/add"} className="nav-link btn-success form-control" data-toggle="pill" role="tab" aria-controls="tab5" aria-selected="false">
-                <i className="mdi mdi-coin"></i> Add Pet
+              <Link to={"/services/add"} className="nav-link btn-success form-control" data-toggle="pill" role="tab" aria-controls="tab5" aria-selected="false">
+                <i className="mdi mdi-coin"></i>New services
               </Link>
           </div>
         </div>
@@ -118,7 +132,7 @@ export default class Pets extends Component {
           <div className="row">
             <div className ="col-lg-10 col-sm-10 mt-3">
               <label>
-              Please Select Pet Type  
+            Filter By pet type 
             <select className="form-control" onChange={this.updatepetType}>
               <option  value="">Select specie</option>
               {petType.map((item) => {
@@ -130,14 +144,17 @@ export default class Pets extends Component {
             <div className ="col-lg-2 col-sm-2"> <input className="form-control  mt-5" type="submit" value="Submit" /></div>
           </div>
       </form>
+      <div>
+        {}
         {this.state.value ? (
             <div style={{marginTop:'-50px'}}>
                {this.state.value.length ? (
               <div class="accordion">
                 {this.renderAccordion()}
-              </div>): <span>No Pet Found</span>}
+              </div>): <span>No Services under the pet type</span>}
             </div>) : null
         }
+      </div>
     </div>);
   }
 }

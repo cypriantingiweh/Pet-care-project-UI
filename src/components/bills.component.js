@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import PetServicesService from "../services/pet-services.service";
 import PetService from "../services/pet.service"
+import moment from "moment";
 
 export default class PetBills extends Component {
     
@@ -96,11 +97,11 @@ export default class PetBills extends Component {
                     {this.state.value ?
                     ( <div> <p> Pet Name: {this.state.value.Pet_name}</p>
                     <p> Pet Type: {this.state.value.type_name}</p>
-                    <p> Pet Birth date: {this.state.value.date_of_birth}</p>
+                    <p> Pet Birth date: { moment.utc(this.state.value.date_of_birth).format("MMM Do, YYYY")}</p>
                     <p> Pet weight: {this.state.value.wieght}</p>
                     <p> Number of days: {this.state.value.number_of_days} </p>
-                    <p> Enter Date : {this.state.value.enter_date}</p>
-                    <p> leaving_date: {this.state.value.leaving_date}</p>
+                    <p> Enter Date : { moment.utc(this.state.value.enter_date).format("MMM Do, YYYY")}</p>
+                    <p> leaving_date: { moment.utc(this.state.value.leaving_date).format("MMM Do, YYYY") }</p>
                      <hr />
                      <h4> Services provided to your {this.state.value.type_name} </h4>
                      <table>

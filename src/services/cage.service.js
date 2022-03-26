@@ -2,8 +2,7 @@ import axios from 'axios';
 import authHeader from './auth-header';
 
 //local dev
-// const API_URL = "http://localhost:5000/api/";
-// const API_Secd = "http://localhost:5000/api/"
+//const API_URL = "http://localhost:5000/api/";
 
 //production
 const API_URL = "https://project-petcare-api.herokuapp.com/api/"

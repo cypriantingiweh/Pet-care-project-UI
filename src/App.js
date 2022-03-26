@@ -17,6 +17,15 @@ import PetBills from "./components/bills.component";
 import SignInPet from "./components/sign-in-pet.component"
 import AddPetOwner from "./components/add-pet-owner";
 import ProvideService from "./components/provide-service.component";
+import AddServices  from "./components/add-services"; 
+import AddCage  from "./components/add-cage";     
+import AddPetType  from "./components/add-pet-type";  
+import EditServices  from "./components/edit-services";
+import EditCage  from "./components/edit-cage";    
+import EditPetType  from "./components/Edit-pet-type"; 
+import EditPet  from "./components/edit-pet"; 
+import PetTypes from "./components/pet-types";
+import Services from "./components/services";    
 
 import pic from "./assets/images/pet-log.jpg"
 
@@ -84,6 +93,11 @@ class App extends Component {
           {currentUser ? (
             <div className="navbar-nav ml-auto">
               <li className="nav-item">
+                <Link to={"/pet-owner/add"} className="nav-link">
+                  Add Pets
+                </Link>
+              </li>
+              <li className="nav-item">
                 <Link to={"/profile"} className="nav-link">
                   {currentUser.user.email}
                 </Link>
@@ -131,6 +145,13 @@ class App extends Component {
                 <Link to={"/pets"} className="nav-link" data-toggle="pill" role="tab" aria-controls="tab5" aria-selected="false">
                     <i className="mdi mdi-coin"></i> Pets
                 </Link>
+
+                <Link to={"/services"} className="nav-link" data-toggle="pill" role="tab" aria-controls="tab4" aria-selected="false">
+                    <i className="mdi mdi-heart"></i>All services
+                </Link>
+                <Link to={"/pet-type"} className="nav-link" data-toggle="pill" role="tab" aria-controls="tab5" aria-selected="false">
+                    <i className="mdi mdi-coin"></i>Pets Kind 
+                </Link>
               </div>
             </div>):null}
             { !currentUser ? 
@@ -157,6 +178,18 @@ class App extends Component {
                                   <Route path ="/pet-owner/add" component = {AddPetOwner} />
                                   <Route path ="/pet/signin" component = {SignInPet} />
                                   <Route path ="/pet/provide" component = {ProvideService} />
+
+                                  <Route path ="/pet-type" component = {PetTypes} />
+                                  <Route path ="/services" component = {Services} />
+
+                                  <Route path="/services/add" component={AddServices} />
+                                  <Route path="/cage/add" component={AddCage} />
+                                  <Route path="/pet-type/add" component={AddPetType} />
+                                  <Route path="/services/edit/:id" component={EditServices} />
+                                  <Route path ="/cage/:id" component ={EditCage} />
+                                  <Route path ="/pet-type/edit/:id" component = {EditPetType} />
+                                  <Route path ="/pet/edit/:id" component = {EditPet} />
+                                  <Route path ="/pet-owner/edit/:id" component = {ProvideService} />
                                 </Switch>
                         </div>
                       </div>

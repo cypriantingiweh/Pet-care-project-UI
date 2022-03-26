@@ -1,11 +1,12 @@
-import React, { Component } from "react";
+import React, {Component} from "react";
+
 import PetService from "../services/pet.service";
 import PetTypeService from "../services/pet-type.service"
 import { Link } from "react-router-dom";
-import moment from 'moment';
 
-export default class Pets extends Component {
-  constructor(props) {
+export default class CageOutPets extends Component {
+
+    constructor(props) {
     super(props);
 
 
@@ -53,11 +54,11 @@ export default class Pets extends Component {
                         <p style ={{marginLeft:'20px'}}> Pet Name:{name}</p>
                         <p style={{marginLeft:'20px'}}> Pet Type: {pet_type} </p>
                         <p style ={{marginLeft:'20px'}}> Pet Cage: {cage} </p>
-                        <p style ={{marginLeft:'20px'}}> Pet Birth date:{ moment.utc(date_of_birth).format("MMM Do, YYYY") } </p>
+                        <p style ={{marginLeft:'20px'}}> Pet Birth date:{date_of_birth } </p>
                         <p style ={{marginLeft:'20px'}}> Pet weight: {wieght}Kg</p>
                         <p style ={{marginLeft:'20px'}}> Number of days: {number_of_days} </p>
-                        <p style ={{marginLeft:'20px'}}> Enter Date : {  moment.utc(enter_date).format("MMM Do, YYYY") }</p>
-                        <p style ={{marginLeft:'20px'}}> leaving_date: {  moment.utc(leaving_date).format("MMM Do, YYYY") } </p>
+                        <p style ={{marginLeft:'20px'}}> Enter Date : {enter_date}</p>
+                        <p style ={{marginLeft:'20px'}}> leaving_date: {leaving_date} </p>
                         <p style ={{marginLeft:'20px'}}> Note: {note} </p> 
                       </div>
                    </div>

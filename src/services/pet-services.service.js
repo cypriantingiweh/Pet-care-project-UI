@@ -1,8 +1,7 @@
 import axios from 'axios';
 import authHeader from './auth-header';
 
-// const API_URL = "http://localhost:5000/api/normal_services";
-// const API_Secd  = "http://localhost:5000/api/provide/"
+//const API_URL = "http://localhost:5000/api/";
 
 //production
 const API_URL = "https://project-petcare-api.herokuapp.com/api/"
@@ -40,6 +39,10 @@ class PetServicesService{
     return axios.get(API_URL + "normal_services/" + pet_type_id, { headers: authHeader() });
   }
 
+    getAllServices() {
+    return axios.get(API_URL + "normal_services/", { headers: authHeader() });
+  }
+  
 
     addProvidePetServices(services_id,pet_cage_id,extra_service,number_oftimes_per_day) {
         return axios.post(API_URL + "provide/service", 
