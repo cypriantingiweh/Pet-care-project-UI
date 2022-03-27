@@ -1,10 +1,10 @@
 import axios from 'axios';
 import authHeader from './auth-header';
 
-//const API_URL = "http://localhost:5000/api/pet_type";
+const API_URL = "http://localhost:5000/api/pet_type";
 
 //production
-const API_URL = "https://project-petcare-api.herokuapp.com/api/pet_type"
+//const API_URL = "https://project-petcare-api.herokuapp.com/api/pet_type"
 
 class PetTypeService{
 

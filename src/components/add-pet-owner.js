@@ -99,7 +99,7 @@ export default class AddPetOwner extends Component {
           this.setState({
             message: response.data.message,
             successful: true,
-            insertedId:response.data.id
+            insertedId:response.data.data.id
           });
             this.props.history.push(`/pet/add?userId=${this.state.insertedId}&message=${this.state.message}&successful=${this.state.successful}`);
         },
